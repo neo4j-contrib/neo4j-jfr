@@ -1,0 +1,33 @@
+
+= The Neo4j Java FlightRecorder Integration
+
+This package allows you to use Java Mission Control and FlightRecorder to monitor select parts of the Neo4j internals.
+This is pretty low-level and undocumented, so if you don't already have a good idea about what is going on here, then be prepared for a pretty steep learning curve.
+
+== Building the package
+
+Just run `mvn clean package` and find the jar in the `target` directory.
+Copy it to the `<neo4j-install-dir>/lib`.
+
+== Turning on Java FlightRecorder
+
+Add the following to `neo4j-wrapper.conf`:
+
+[source]
+----
+wrapper.java.additional=-XX:+UnlockCommercialFeatures
+wrapper.java.additional=-XX:+FlightRecorder
+wrapper.java.additional=-XX:+UnlockDiagnosticVMOptions
+wrapper.java.additional=-XX:+DebugNonSafepoints
+----
+
+Note that this requires an Oracle JDK, and that there are special licensing terms for FlightRecorder.
+
+== Configuring JfrPageCacheMonitor
+
+Add the following to your `neo4j.properties` file:
+
+[source]
+----
+pagecache_monitor=jfr
+----
