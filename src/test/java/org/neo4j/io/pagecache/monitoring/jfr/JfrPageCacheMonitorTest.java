@@ -27,6 +27,6 @@ public class JfrPageCacheMonitorTest extends PageCacheMonitorTest
     @Override
     protected PageCacheMonitor createMonitor()
     {
-        return JfrPageCacheMonitorFactory.createJfrPageCacheMonitor();
+        return new JfrPageCacheMonitorFactory().createPageCacheMonitor();
     }
 }

@@ -19,13 +19,23 @@
  */
 package org.neo4j.io.pagecache.monitoring.jfr;
 
+import org.neo4j.io.pagecache.monitoring.PageCacheMonitor;
+import org.neo4j.io.pagecache.monitoring.PageCacheMonitorFactory;
+
 /**
  * This class exist to delay the initialisation of the JFR mechanics, until it's
  * been determined with certainty that they are needed.
  */
-public class JfrPageCacheMonitorFactory
+public class JfrPageCacheMonitorFactory implements PageCacheMonitorFactory
 {
-    public static JfrPageCacheMonitor createJfrPageCacheMonitor()
+    @Override
+    public String getImplementationName()
+    {
+        return "jfr";
+    }
+
+    @Override
+    public PageCacheMonitor createPageCacheMonitor()
     {
         return new JfrPageCacheMonitor();
     }
