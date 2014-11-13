@@ -7,7 +7,7 @@ This is pretty low-level and undocumented, so if you don't already have a good i
 == Building the package
 
 Just run `mvn clean package` and find the jar in the `target` directory.
-Copy it to the `<neo4j-install-dir>/lib`.
+Copy it to the `<neo4j-install-dir>/lib` directory.
 
 == Turning on Java FlightRecorder
 
@@ -31,3 +31,6 @@ Add the following to your `neo4j.properties` file:
 ----
 pagecache_monitor=jfr
 ----
+
+Neo4j will now report page cache monitoring events to FlightRecorder, next time it starts.
+There is a slight performance overhead to enabling this, but it's pretty small.
