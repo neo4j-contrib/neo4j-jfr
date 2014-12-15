@@ -17,6 +17,7 @@ Add the following to `neo4j-wrapper.conf`:
 ----
 wrapper.java.additional=-XX:+UnlockCommercialFeatures
 wrapper.java.additional=-XX:+FlightRecorder
+wrapper.java.additional=-XX:FlightRecorderOptions=stackdepth=500
 wrapper.java.additional=-XX:+UnlockDiagnosticVMOptions
 wrapper.java.additional=-XX:+DebugNonSafepoints
 ----
