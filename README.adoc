@@ -35,3 +35,15 @@ pagecache_monitor=jfr
 
 Neo4j will now report page cache monitoring events to FlightRecorder, next time it starts.
 There is a slight performance overhead to enabling this, but it's pretty small.
+
+Once flight recording of the page cache monitor has been enabled, you can grab recordings through Java Mission Control.
+Remember to enable the Neo4j events in the Flight Recording wizard.
+
+You can also grab recordings from the command line, by copying the `neo4j.jfc` (a flight recording settings template file) to `$JRE_HOME/lib/jfr`, and then starting the flight recording with `jcmd` like this:
+
+[source]
+----
+jcmd <PID> JFR.start duration=60s name=MyRecording filename=recording-output.jfr settings=neo4j
+----
+
+This will put the `recording-output.jfr` file in the working directory of the profiled program, that you can then open with Java Mission Control.
