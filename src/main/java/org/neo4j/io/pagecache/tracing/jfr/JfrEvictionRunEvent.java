@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.neo4j.io.pagecache.monitoring.jfr;
+package org.neo4j.io.pagecache.tracing.jfr;
 
 import com.oracle.jrockit.jfr.EventDefinition;
 import com.oracle.jrockit.jfr.TimedEvent;
@@ -25,8 +25,8 @@ import com.oracle.jrockit.jfr.ValueDefinition;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.neo4j.io.pagecache.monitoring.EvictionEvent;
-import org.neo4j.io.pagecache.monitoring.EvictionRunEvent;
+import org.neo4j.io.pagecache.tracing.EvictionEvent;
+import org.neo4j.io.pagecache.tracing.EvictionRunEvent;
 
 @EventDefinition(path = "neo4j/io/pagecache/evictionrun")
 public class JfrEvictionRunEvent extends TimedEvent implements EvictionRunEvent
@@ -50,7 +50,7 @@ public class JfrEvictionRunEvent extends TimedEvent implements EvictionRunEvent
             AtomicLong flushes,
             AtomicLong bytesWritten )
     {
-        super( JfrPageCacheMonitor.evictionRunToken );
+        super( JfrPageCacheTracer.evictionRunToken );
         this.evictionsCounter = evictionsCounter;
         this.evictionExceptions = evictionExceptions;
         this.flushes = flushes;

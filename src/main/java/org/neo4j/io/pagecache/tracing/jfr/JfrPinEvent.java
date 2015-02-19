@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.neo4j.io.pagecache.monitoring.jfr;
+package org.neo4j.io.pagecache.tracing.jfr;
 
 import com.oracle.jrockit.jfr.EventDefinition;
 import com.oracle.jrockit.jfr.TimedEvent;
@@ -25,8 +25,8 @@ import com.oracle.jrockit.jfr.ValueDefinition;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.neo4j.io.pagecache.monitoring.PageFaultEvent;
-import org.neo4j.io.pagecache.monitoring.PinEvent;
+import org.neo4j.io.pagecache.tracing.PageFaultEvent;
+import org.neo4j.io.pagecache.tracing.PinEvent;
 
 @EventDefinition(path = "neo4j/io/pagecache/pin")
 public class JfrPinEvent extends TimedEvent implements PinEvent
@@ -52,7 +52,7 @@ public class JfrPinEvent extends TimedEvent implements PinEvent
 
     public JfrPinEvent( AtomicLong unpins, AtomicLong faults, AtomicLong bytesRead )
     {
-        super( JfrPageCacheMonitor.pinToken );
+        super( JfrPageCacheTracer.pinToken );
         this.unpins = unpins;
         this.faults = faults;
         this.bytesRead = bytesRead;

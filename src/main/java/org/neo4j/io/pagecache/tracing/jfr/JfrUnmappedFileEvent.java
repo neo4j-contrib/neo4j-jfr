@@ -17,21 +17,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.neo4j.io.pagecache.monitoring.jfr;
+package org.neo4j.io.pagecache.tracing.jfr;
 
 import com.oracle.jrockit.jfr.EventDefinition;
 import com.oracle.jrockit.jfr.InstantEvent;
 import com.oracle.jrockit.jfr.ValueDefinition;
 
-@EventDefinition(path = "neo4j/io/pagecache/mappedfile")
-public class JfrMappedFileEvent extends InstantEvent
+@EventDefinition(path = "neo4j/io/pagecache/unmappedfile")
+public class JfrUnmappedFileEvent extends InstantEvent
 {
     @ValueDefinition(name = "filename")
     private final String filename;
 
-    public JfrMappedFileEvent( String filename )
+    public JfrUnmappedFileEvent( String filename )
     {
-        super( JfrPageCacheMonitor.mappedFileToken );
+        super( JfrPageCacheTracer.unmappedFileToken );
         this.filename = filename;
     }
 

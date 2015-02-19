@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.neo4j.io.pagecache.monitoring.jfr;
+package org.neo4j.io.pagecache.tracing.jfr;
 
 import com.oracle.jrockit.jfr.ContentType;
 import com.oracle.jrockit.jfr.EventDefinition;
@@ -28,7 +28,7 @@ import java.io.IOException;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.neo4j.io.pagecache.PageSwapper;
-import org.neo4j.io.pagecache.monitoring.FlushEvent;
+import org.neo4j.io.pagecache.tracing.FlushEvent;
 
 @EventDefinition(path = "neo4j/io/pagecache/flush")
 public class JfrFlushEvent extends TimedEvent implements FlushEvent
@@ -56,7 +56,7 @@ public class JfrFlushEvent extends TimedEvent implements FlushEvent
 
     public JfrFlushEvent( AtomicLong bytesWritten )
     {
-        super( JfrPageCacheMonitor.flushToken );
+        super( JfrPageCacheTracer.flushToken );
         bytesWrittenTotal = bytesWritten;
     }
 

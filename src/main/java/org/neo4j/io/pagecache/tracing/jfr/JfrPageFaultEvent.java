@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.neo4j.io.pagecache.monitoring.jfr;
+package org.neo4j.io.pagecache.tracing.jfr;
 
 import com.oracle.jrockit.jfr.ContentType;
 import com.oracle.jrockit.jfr.EventDefinition;
@@ -26,7 +26,7 @@ import com.oracle.jrockit.jfr.ValueDefinition;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.neo4j.io.pagecache.monitoring.PageFaultEvent;
+import org.neo4j.io.pagecache.tracing.PageFaultEvent;
 
 @EventDefinition(path = "neo4j/io/pagecache/fault")
 public class JfrPageFaultEvent extends TimedEvent implements PageFaultEvent
@@ -52,7 +52,7 @@ public class JfrPageFaultEvent extends TimedEvent implements PageFaultEvent
 
     public JfrPageFaultEvent( AtomicLong bytesRead )
     {
-        super( JfrPageCacheMonitor.faultToken );
+        super( JfrPageCacheTracer.faultToken );
         bytesReadTotal = bytesRead;
     }
 

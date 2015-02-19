@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.neo4j.io.pagecache.monitoring.jfr;
+package org.neo4j.io.pagecache.tracing.jfr;
 
 import com.oracle.jrockit.jfr.EventDefinition;
 import com.oracle.jrockit.jfr.TimedEvent;
@@ -26,28 +26,30 @@ import com.oracle.jrockit.jfr.ValueDefinition;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.neo4j.io.pagecache.PageSwapper;
-import org.neo4j.io.pagecache.monitoring.FlushEvent;
-import org.neo4j.io.pagecache.monitoring.FlushEventOpportunity;
-import org.neo4j.io.pagecache.monitoring.MajorFlushEvent;
+import org.neo4j.io.pagecache.tracing.FlushEvent;
+import org.neo4j.io.pagecache.tracing.FlushEventOpportunity;
+import org.neo4j.io.pagecache.tracing.MajorFlushEvent;
 
-@EventDefinition(path = "neo4j/io/pagecache/cacheflush")
-public class JfrCacheFlushEvent extends TimedEvent implements MajorFlushEvent, FlushEventOpportunity
+@EventDefinition(path = "neo4j/io/pagecache/fileflush")
+public class JfrFileFlushEvent extends TimedEvent implements MajorFlushEvent, FlushEventOpportunity
 {
-    private static final AtomicLong cacheFlushCounter = new AtomicLong();
-    static final String REL_KEY_CACHE_FLUSH_ID = "http://neo4j.com/jfr/cacheFlushId";
+    private static final AtomicLong fileFlushCounter = new AtomicLong();
+    static final String REL_KEY_FILE_FLUSH_ID = "http://neo4j.com/jfr/fileFlushId";
 
     private final AtomicLong flushes;
     private final AtomicLong bytesWritten;
 
-    @ValueDefinition(name = "cacheFlushEventId", relationKey = REL_KEY_CACHE_FLUSH_ID)
-    private long cacheFlushEventId;
+    @ValueDefinition(name = "fileFlushEventId", relationKey = REL_KEY_FILE_FLUSH_ID)
+    private final long fileFlushEventId;
+    @ValueDefinition(name = "filename")
+    private String filename;
 
-    public JfrCacheFlushEvent( AtomicLong flushes, AtomicLong bytesWritten )
+    public JfrFileFlushEvent( AtomicLong flushes, AtomicLong bytesWritten )
     {
-        super( JfrPageCacheMonitor.cacheFlushToken );
+        super( JfrPageCacheTracer.fileFlushToken );
         this.flushes = flushes;
         this.bytesWritten = bytesWritten;
-        cacheFlushEventId = cacheFlushCounter.incrementAndGet();
+        fileFlushEventId = fileFlushCounter.incrementAndGet();
     }
 
     @Override
@@ -72,17 +74,22 @@ public class JfrCacheFlushEvent extends TimedEvent implements MajorFlushEvent, F
         event.setFilePageId( filePageId );
         event.setCachePageId( cachePageId );
         event.setSwapper( swapper );
-        event.setCacheFlushEventId( cacheFlushEventId );
+        event.setFileFlushEventId( fileFlushEventId );
         return event;
     }
 
-    public long getCacheFlushEventId()
+    public void setFilename( String filename )
     {
-        return cacheFlushEventId;
+        this.filename = filename;
     }
 
-    public void setCacheFlushEventId( long cacheFlushEventId )
+    public String getFilename()
     {
-        this.cacheFlushEventId = cacheFlushEventId;
+        return filename;
+    }
+
+    public long getFileFlushEventId()
+    {
+        return fileFlushEventId;
     }
 }

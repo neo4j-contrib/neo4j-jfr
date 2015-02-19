@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2014 "Neo Technology,"
+ * Copyright (c) 2002-2015 "Neo Technology,"
  * Network Engine for Objects in Lund AB [http://neotechnology.com]
  *
  * This file is part of Neo4j.
@@ -17,26 +17,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.neo4j.io.pagecache.monitoring.jfr;
+package org.neo4j.kernel.impl.transaction.tracing.jfr;
 
-import org.neo4j.io.pagecache.monitoring.PageCacheMonitor;
-import org.neo4j.io.pagecache.monitoring.PageCacheMonitorFactory;
+import com.oracle.jrockit.jfr.EventDefinition;
+import com.oracle.jrockit.jfr.TimedEvent;
 
-/**
- * This class exist to delay the initialisation of the JFR mechanics, until it's
- * been determined with certainty that they are needed.
- */
-public class JfrPageCacheMonitorFactory implements PageCacheMonitorFactory
+import org.neo4j.kernel.impl.transaction.tracing.LogForceEvent;
+
+@EventDefinition(path = "neo4j/transaction/logforce")
+public class JfrLogForceEvent extends TimedEvent implements LogForceEvent
 {
-    @Override
-    public String getImplementationName()
+    protected JfrLogForceEvent()
     {
-        return "jfr";
+        super( JfrTransactionTracer.logForceToken );
     }
 
     @Override
-    public PageCacheMonitor createPageCacheMonitor()
+    public void close()
     {
-        return new JfrPageCacheMonitor();
+        commit();
     }
 }

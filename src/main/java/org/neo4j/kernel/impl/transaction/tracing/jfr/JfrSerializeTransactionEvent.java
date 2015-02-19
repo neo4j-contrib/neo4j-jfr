@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2014 "Neo Technology,"
+ * Copyright (c) 2002-2015 "Neo Technology,"
  * Network Engine for Objects in Lund AB [http://neotechnology.com]
  *
  * This file is part of Neo4j.
@@ -17,26 +17,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.neo4j.io.pagecache.monitoring.jfr;
+package org.neo4j.kernel.impl.transaction.tracing.jfr;
 
 import com.oracle.jrockit.jfr.EventDefinition;
-import com.oracle.jrockit.jfr.InstantEvent;
-import com.oracle.jrockit.jfr.ValueDefinition;
+import com.oracle.jrockit.jfr.TimedEvent;
 
-@EventDefinition(path = "neo4j/io/pagecache/unmappedfile")
-public class JfrUnmappedFileEvent extends InstantEvent
+import org.neo4j.kernel.impl.transaction.tracing.SerializeTransactionEvent;
+
+@EventDefinition(path = "neo4j/transaction/serialize")
+public class JfrSerializeTransactionEvent extends TimedEvent implements SerializeTransactionEvent
 {
-    @ValueDefinition(name = "filename")
-    private final String filename;
-
-    public JfrUnmappedFileEvent( String filename )
+    protected JfrSerializeTransactionEvent()
     {
-        super( JfrPageCacheMonitor.unmappedFileToken );
-        this.filename = filename;
+        super( JfrTransactionTracer.serializeTransactionToken );
     }
 
-    public String getFilename()
+    @Override
+    public void close()
     {
-        return filename;
+        commit();
     }
 }
