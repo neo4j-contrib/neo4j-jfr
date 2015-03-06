@@ -19,10 +19,12 @@
  */
 package org.neo4j.kernel.impl.transaction.tracing.jfr;
 
+import com.oracle.jrockit.jfr.EventDefinition;
 import com.oracle.jrockit.jfr.TimedEvent;
 
 import org.neo4j.kernel.impl.transaction.tracing.StoreApplyEvent;
 
+@EventDefinition(path = "neo4j/transaction/apply")
 public class JfrStoreApplyEvent extends TimedEvent implements StoreApplyEvent
 {
     protected JfrStoreApplyEvent()

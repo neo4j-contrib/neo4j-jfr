@@ -91,7 +91,7 @@ public class JfrTransactionEvent extends TimedEvent implements TransactionEvent
         return transactionType;
     }
 
-    public boolean isReadOnly()
+    public boolean getReadOnly()
     {
         return readOnly;
     }
