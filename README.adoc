@@ -6,7 +6,7 @@ This is pretty low-level and undocumented, so if you don't already have a good i
 
 == Building the package
 
-Just run `mvn clean package` and find the jar in the `target` directory.
+Just run `mvn clean package` and find `neo4j-jfr.jar` in the `cli/target` directory.
 Copy it to the `<neo4j-install-dir>/lib` directory.
 
 == Turning on Java FlightRecorder
@@ -40,7 +40,8 @@ There is a more significant performance overhead when a recording is being produ
 You can grab recordings through Java Mission Control, or from the command line.
 In Java Mission Control, you have to remember to enable the Neo4j events in the Flight Recording wizard.
 You can then export the Flight Recorder configuration from Mission Control, and use it as a profile when you grab recordings from the command line.
-You can alternatively use the `neo4j.jfc` configuration file from this repository, by copying it to `$JRE_HOME/lib/jfr`, and then starting the flight recording with `jcmd` like this:
+You can alternatively generate a configuration file either with just the Neo4j events, or with Neo4j's events merged into the .jfc configuration files that ship with your JVM.
+Use e.g. `java -jar cli/target/neo4j-jfr.jar dump-config --extend default >neo4j.jfc` to obtain `neo4j.jfc` which you can now copy into  `$JRE_HOME/lib/jfr`. You can then start the flight recording with `jcmd` like this:
 
 [source]
 ----
