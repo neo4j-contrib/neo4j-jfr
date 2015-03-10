@@ -32,7 +32,6 @@ import org.neo4j.kernel.impl.transaction.tracing.TransactionTracer;
 @Tracer("http://neo4j.com/kernel/transaction/jfr")
 public class JfrTransactionTracer implements TransactionTracer
 {
-    //static final String producerUri = "http://neo4j.com/kernel/transaction/jfr";
     static final Producer producer;
     static final EventToken commitToken;
     static final EventToken logAppendToken;
