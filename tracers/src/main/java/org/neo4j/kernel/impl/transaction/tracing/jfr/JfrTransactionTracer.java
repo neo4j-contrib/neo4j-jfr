@@ -25,12 +25,14 @@ import com.oracle.jrockit.jfr.Producer;
 
 import java.net.URI;
 
+import org.neo4j.jfr.configuration.Tracer;
 import org.neo4j.kernel.impl.transaction.tracing.TransactionEvent;
 import org.neo4j.kernel.impl.transaction.tracing.TransactionTracer;
 
+@Tracer("http://neo4j.com/kernel/transaction/jfr")
 public class JfrTransactionTracer implements TransactionTracer
 {
-    static final String producerUri = "http://neo4j.com/kernel/transaction/jfr";
+    //static final String producerUri = "http://neo4j.com/kernel/transaction/jfr";
     static final Producer producer;
     static final EventToken commitToken;
     static final EventToken logAppendToken;
@@ -59,6 +61,7 @@ public class JfrTransactionTracer implements TransactionTracer
     {
         try
         {
+            String producerUri = JfrTransactionTracer.class.getAnnotation( Tracer.class ).value();
             return new Producer(
                     "TransactionTracer",
                     "Tracing the runtime behaviour of the Neo4j transaction subsystem",

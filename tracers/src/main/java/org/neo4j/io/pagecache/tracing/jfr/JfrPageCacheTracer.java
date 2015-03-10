@@ -32,13 +32,14 @@ import org.neo4j.io.pagecache.tracing.EvictionRunEvent;
 import org.neo4j.io.pagecache.tracing.MajorFlushEvent;
 import org.neo4j.io.pagecache.tracing.PinEvent;
 import org.neo4j.io.pagecache.tracing.PageCacheTracer;
+import org.neo4j.jfr.configuration.Tracer;
 
 /**
  * A special PageCacheMonitor that also produces Java Flight Recorder events.
  */
+@Tracer("http://neo4j.com/io/pagecache/jfr")
 public class JfrPageCacheTracer implements PageCacheTracer
 {
-    static final String producerUri = "http://neo4j.com/io/pagecache/jfr";
     static final Producer producer;
     static final EventToken faultToken;
     static final EventToken evictionToken;
@@ -69,6 +70,7 @@ public class JfrPageCacheTracer implements PageCacheTracer
     {
         try
         {
+            String producerUri = JfrPageCacheTracer.class.getAnnotation( Tracer.class ).value();
             return new Producer(
                     "PageCacheTracer",
                     "Tracing the runtime behaviour of the Neo4j PageCache",

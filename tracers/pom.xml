@@ -53,6 +53,17 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.2</version>
+        <configuration>
+          <verbose>true</verbose>
+          <fork>true</fork>
+          <compilerArgs>
+            <arg>-J-DMANIFEST_PATH=target/classes</arg>
+          </compilerArgs>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
@@ -90,6 +101,18 @@
     </dependency>
 
     <dependency>
+      <groupId>org.neo4j.jfr</groupId>
+      <artifactId>configuration</artifactId>
+      <version>${neo4j.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.jamesmurty.utils</groupId>
+      <artifactId>java-xmlbuilder</artifactId>
+      <version>1.1</version>
+    </dependency>
+
+    <dependency>
       <groupId>org.neo4j</groupId>
       <artifactId>neo4j-io</artifactId>
       <type>test-jar</type>
@@ -99,7 +122,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.11</version>
+      <version>4.12</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
