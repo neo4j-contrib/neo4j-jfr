@@ -12,6 +12,7 @@
   <modules>
     <module>configuration</module>
     <module>tracers</module>
+    <module>cli</module>
   </modules>
 
   <properties>
