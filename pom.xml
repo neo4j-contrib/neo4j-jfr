@@ -6,7 +6,7 @@
 
   <groupId>org.neo4j</groupId>
   <artifactId>neo4j-jfr</artifactId>
-  <version>2.2-SNAPSHOT</version>
+  <version>2.3-SNAPSHOT</version>
 
   <properties>
     <neo4j.version>${project.version}</neo4j.version>
@@ -86,4 +86,3 @@
     </repository>
   </repositories>
 </project>
-
