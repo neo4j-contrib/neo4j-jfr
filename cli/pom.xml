@@ -20,7 +20,7 @@
           <finalName>neo4j-jfr-${project.version}</finalName>
           <transformers>
             <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-              <mainClass>org.neo4j.jfr.Main</mainClass>
+              <mainClass>org.neo4j.jfr.Configurator</mainClass>
             </transformer>
             <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
           </transformers>
@@ -52,11 +52,6 @@
       <groupId>org.neo4j.jfr</groupId>
       <artifactId>tracers</artifactId>
       <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.github.rvesse</groupId>
-      <artifactId>airline</artifactId>
-      <version>0.9.1</version>
     </dependency>
   </dependencies>
 </project>

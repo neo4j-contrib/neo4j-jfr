@@ -41,7 +41,7 @@ You can grab recordings through Java Mission Control, or from the command line.
 In Java Mission Control, you have to remember to enable the Neo4j events in the Flight Recording wizard.
 You can then export the Flight Recorder configuration from Mission Control, and use it as a profile when you grab recordings from the command line.
 You can alternatively generate a configuration file either with just the Neo4j events, or with Neo4j's events merged into the .jfc configuration files that ship with your JVM.
-Use e.g. `java -jar cli/target/neo4j-jfr.jar dump-config --extend default >neo4j.jfc` to obtain `neo4j.jfc` which you can now copy into  `$JRE_HOME/lib/jfr`. You can then start the flight recording with `jcmd` like this:
+Use e.g. `java -jar cli/target/neo4j-jfr.jar <$JAVA_HOME/jre/lib/jfr/default.jfc >neo4j.jfc` to obtain `neo4j.jfc` which you can now copy into  `$JRE_HOME/lib/jfr`. You can then start the flight recording with `jcmd` like this:
 
 [source]
 ----
