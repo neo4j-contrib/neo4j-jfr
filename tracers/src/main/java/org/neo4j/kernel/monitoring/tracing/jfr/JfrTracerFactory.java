@@ -22,7 +22,6 @@ package org.neo4j.kernel.monitoring.tracing.jfr;
 import org.neo4j.io.pagecache.tracing.PageCacheTracer;
 import org.neo4j.io.pagecache.tracing.jfr.JfrPageCacheTracer;
 import org.neo4j.kernel.impl.transaction.tracing.TransactionTracer;
-import org.neo4j.kernel.impl.transaction.tracing.jfr.JfrTransactionTracer;
 import org.neo4j.kernel.monitoring.tracing.TracerFactory;
 
 /**
@@ -46,6 +45,7 @@ public class JfrTracerFactory implements TracerFactory
     @Override
     public TransactionTracer createTransactionTracer()
     {
-        return new JfrTransactionTracer();
+        //return new JfrTransactionTracer();
+        return TransactionTracer.NULL;
     }
 }
