@@ -60,11 +60,24 @@ public class Configurator
             return XMLBuilder2.parse( new InputSource( System.in ) );
         }
 
-        XMLBuilder2 builder = XMLBuilder2.create( "configuration" );
-        builder.a( "description", "Neo4j events" );
-        builder.a( "name", "Neo4j Events" );
-        builder.a( "provider", "Neo Technology" );
-        builder.a( "version", "1.0" );
-        return builder;
+        XMLBuilder2 configuration = XMLBuilder2.create( "configuration" );
+        configuration.a( "description", "Neo4j events" );
+        configuration.a( "name", "Neo4j Events" );
+        configuration.a( "provider", "Neo Technology" );
+        configuration.a( "version", "1.0" );
+
+        XMLBuilder2 producer = configuration.e( "producer" );
+        producer.a( "uri", "http://www.oracle.com/hotspot/jfr-info/" );
+        producer.a( "label", "Oracle JDK" );
+
+        XMLBuilder2 recordingEvent = producer.e( "event" );
+        recordingEvent.a( "path", "recordings/recording" );
+        recordingEvent.e( "setting" ).a( "name", "enabled" ).t( "true" );
+
+        XMLBuilder2 recordingSettingEvent = producer.e( "event" );
+        recordingSettingEvent.a( "path", "recordings/recording_setting" );
+        recordingSettingEvent.e( "setting" ).a( "name", "enabled" ).t( "true" );
+
+        return configuration;
     }
 }
