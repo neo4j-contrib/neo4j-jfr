@@ -29,7 +29,7 @@ import org.neo4j.jfr.configuration.Tracer;
 import org.neo4j.kernel.impl.transaction.tracing.TransactionEvent;
 import org.neo4j.kernel.impl.transaction.tracing.TransactionTracer;
 
-@Tracer("http://neo4j.com/kernel/transaction/jfr")
+@Tracer("http://neo4j.com/kernel/transaction/jfr/")
 public class JfrTransactionTracer implements TransactionTracer
 {
     static final Producer producer;

@@ -37,7 +37,7 @@ import org.neo4j.jfr.configuration.Tracer;
 /**
  * A special PageCacheMonitor that also produces Java Flight Recorder events.
  */
-@Tracer("http://neo4j.com/io/pagecache/jfr")
+@Tracer("http://neo4j.com/io/pagecache/jfr/")
 public class JfrPageCacheTracer implements PageCacheTracer
 {
     static final Producer producer;
@@ -147,7 +147,7 @@ public class JfrPageCacheTracer implements PageCacheTracer
         event.setPinEventId( pinEventId );
         event.setExclusiveLock( exclusiveLock );
         event.setFilePageId( filePageId );
-        event.setFilename( swapper.fileName() );
+        event.setFilename( swapper.file().getName() );
         return event;
     }
 
@@ -156,7 +156,7 @@ public class JfrPageCacheTracer implements PageCacheTracer
     {
         JfrFileFlushEvent event = new JfrFileFlushEvent( flushes, bytesWritten );
         event.begin();
-        event.setFilename( swapper.fileName() );
+        event.setFilename( swapper.file().getName() );
         return event;
     }
 

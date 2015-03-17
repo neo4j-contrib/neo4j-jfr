@@ -94,7 +94,7 @@ public class JfrFlushEvent extends TimedEvent implements FlushEvent
 
     public void setSwapper( PageSwapper swapper )
     {
-        this.filename = swapper.fileName();
+        this.filename = swapper.file().getName();
     }
 
     public void setEvictionId( long evictionId )
