@@ -76,7 +76,7 @@ public class JfrEvictionEvent extends TimedEvent implements EvictionEvent, Flush
     @Override
     public void setSwapper( PageSwapper swapper )
     {
-        this.filename = swapper.file().getName();
+        this.filename = swapper == null? "<null>" : swapper.file().getName();
     }
 
     @Override
