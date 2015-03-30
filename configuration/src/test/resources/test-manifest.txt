@@ -1,2 +1,0 @@
-http://example.com/testing/,some/event,another/event,a/third/event
-http://example.com/more/testing/,events/keep/coming
