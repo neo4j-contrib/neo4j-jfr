@@ -23,8 +23,6 @@ import com.oracle.jrockit.jfr.EventDefinition;
 import com.oracle.jrockit.jfr.TimedEvent;
 import com.oracle.jrockit.jfr.ValueDefinition;
 
-import java.util.concurrent.atomic.AtomicLong;
-
 import org.neo4j.io.pagecache.tracing.EvictionEvent;
 import org.neo4j.io.pagecache.tracing.EvictionRunEvent;
 
@@ -32,10 +30,7 @@ import org.neo4j.io.pagecache.tracing.EvictionRunEvent;
 public class JfrEvictionRunEvent extends TimedEvent implements EvictionRunEvent
 {
     static final String REL_KEY_EVICTION_RUN = "http://neo4j.com/jfr/evictionRun";
-    private final AtomicLong evictionsCounter;
-    private final AtomicLong evictionExceptions;
-    private final AtomicLong flushes;
-    private final AtomicLong bytesWritten;
+    private final EvictionEventStarter evictionEventStarter;
 
     @ValueDefinition(name = "evictionRun", relationKey = REL_KEY_EVICTION_RUN )
     private long evictionRun;
@@ -44,29 +39,18 @@ public class JfrEvictionRunEvent extends TimedEvent implements EvictionRunEvent
     @ValueDefinition(name = "actualEvictions")
     private int actualEvictions;
 
-    public JfrEvictionRunEvent(
-            AtomicLong evictionsCounter,
-            AtomicLong evictionExceptions,
-            AtomicLong flushes,
-            AtomicLong bytesWritten )
+    public JfrEvictionRunEvent( EvictionEventStarter evictionEventStarter )
     {
         super( JfrPageCacheTracer.evictionRunToken );
-        this.evictionsCounter = evictionsCounter;
-        this.evictionExceptions = evictionExceptions;
-        this.flushes = flushes;
-        this.bytesWritten = bytesWritten;
+        this.evictionEventStarter = evictionEventStarter;
     }
 
     @Override
     public EvictionEvent beginEviction()
     {
         actualEvictions++;
-        long evictionId = evictionsCounter.incrementAndGet();
-        JfrEvictionEvent evictionEvent = new JfrEvictionEvent(
-                evictionExceptions, flushes, bytesWritten );
-        evictionEvent.begin();
+        JfrEvictionEvent evictionEvent = evictionEventStarter.startEviction();
         evictionEvent.setEvictionRun( evictionRun );
-        evictionEvent.setEvictionId( evictionId );
         return evictionEvent;
     }
 

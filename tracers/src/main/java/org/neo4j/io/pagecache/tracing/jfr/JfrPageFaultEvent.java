@@ -26,12 +26,14 @@ import com.oracle.jrockit.jfr.ValueDefinition;
 
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.neo4j.io.pagecache.tracing.EvictionEvent;
 import org.neo4j.io.pagecache.tracing.PageFaultEvent;
 
 @EventDefinition(path = "neo4j/io/pagecache/fault")
 public class JfrPageFaultEvent extends TimedEvent implements PageFaultEvent
 {
     private final AtomicLong bytesReadTotal;
+    private final EvictionEventStarter evictionEventStarter;
 
     @ValueDefinition(name = "pinEventId", relationKey = JfrPinEvent.REL_KEY_PIN_EVENT_ID)
     private long pinEventId;
@@ -47,13 +49,12 @@ public class JfrPageFaultEvent extends TimedEvent implements PageFaultEvent
     private String exceptionMessage;
     @ValueDefinition(name = "cachePageId")
     private int cachePageId;
-    @ValueDefinition(name = "parked")
-    private boolean parked;
 
-    public JfrPageFaultEvent( AtomicLong bytesRead )
+    public JfrPageFaultEvent( AtomicLong bytesRead, EvictionEventStarter evictionEventStarter )
     {
         super( JfrPageCacheTracer.faultToken );
         bytesReadTotal = bytesRead;
+        this.evictionEventStarter = evictionEventStarter;
     }
 
     @Override
@@ -76,6 +77,12 @@ public class JfrPageFaultEvent extends TimedEvent implements PageFaultEvent
         this.gotException = true;
         this.exceptionMessage = throwable.getMessage();
         done();
+    }
+
+    @Override
+    public EvictionEvent beginEviction()
+    {
+        return evictionEventStarter.startEviction();
     }
 
     public void setPinEventId( long pinEventId )
@@ -132,16 +139,5 @@ public class JfrPageFaultEvent extends TimedEvent implements PageFaultEvent
     public void setCachePageId( int cachePageId )
     {
         this.cachePageId = cachePageId;
-    }
-
-    public boolean getParked()
-    {
-        return parked;
-    }
-
-    @Override
-    public void setParked( boolean parked )
-    {
-        this.parked = parked;
     }
 }

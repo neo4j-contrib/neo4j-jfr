@@ -107,6 +107,8 @@ public class JfrPageCacheTracer implements PageCacheTracer
     private final AtomicLong unpins = new AtomicLong();
     private final AtomicLong filesMapped = new AtomicLong();
     private final AtomicLong filesUnmapped = new AtomicLong();
+    private final EvictionEventStarter evictionEventStarter = new EvictionEventStarter(
+            evictions, evictionExceptions, flushes, bytesWritten );
 
     @Override
     public void mappedFile( File file )
@@ -129,8 +131,7 @@ public class JfrPageCacheTracer implements PageCacheTracer
     {
         long evictionRunId = evictionRunCounter.incrementAndGet();
 
-        JfrEvictionRunEvent event = new JfrEvictionRunEvent(
-                evictions, evictionExceptions, flushes, bytesWritten );
+        JfrEvictionRunEvent event = new JfrEvictionRunEvent( evictionEventStarter );
         event.begin();
         event.setExpectedEvictions( expectedEvictions );
         event.setEvictionRun( evictionRunId );
@@ -142,7 +143,7 @@ public class JfrPageCacheTracer implements PageCacheTracer
     {
         long pinEventId = pins.incrementAndGet();
 
-        JfrPinEvent event = new JfrPinEvent( unpins, faults, bytesRead );
+        JfrPinEvent event = new JfrPinEvent( unpins, faults, bytesRead, evictionEventStarter );
         event.begin();
         event.setPinEventId( pinEventId );
         event.setExclusiveLock( exclusiveLock );

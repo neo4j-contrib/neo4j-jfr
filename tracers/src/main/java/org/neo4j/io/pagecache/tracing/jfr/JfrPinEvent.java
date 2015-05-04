@@ -36,6 +36,7 @@ public class JfrPinEvent extends TimedEvent implements PinEvent
     private final AtomicLong unpins;
     private final AtomicLong faults;
     private final AtomicLong bytesRead;
+    private final EvictionEventStarter evictionEventStarter;
 
     @ValueDefinition(name = "pinEventId", relationKey = REL_KEY_PIN_EVENT_ID)
     private long pinEventId;
@@ -50,12 +51,17 @@ public class JfrPinEvent extends TimedEvent implements PinEvent
     @ValueDefinition(name = "causedPageFault")
     private boolean causedPageFault;
 
-    public JfrPinEvent( AtomicLong unpins, AtomicLong faults, AtomicLong bytesRead )
+    public JfrPinEvent(
+            AtomicLong unpins,
+            AtomicLong faults,
+            AtomicLong bytesRead,
+            EvictionEventStarter evictionEventStarter )
     {
         super( JfrPageCacheTracer.pinToken );
         this.unpins = unpins;
         this.faults = faults;
         this.bytesRead = bytesRead;
+        this.evictionEventStarter = evictionEventStarter;
     }
 
     @Override
@@ -70,7 +76,7 @@ public class JfrPinEvent extends TimedEvent implements PinEvent
         faults.getAndIncrement();
 
         causedPageFault = true;
-        JfrPageFaultEvent event = new JfrPageFaultEvent( bytesRead );
+        JfrPageFaultEvent event = new JfrPageFaultEvent( bytesRead, evictionEventStarter );
         event.setPinEventId( pinEventId );
         event.setFilePageId( filePageId );
         event.setFilename( filename );
