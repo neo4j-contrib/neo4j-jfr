@@ -26,11 +26,13 @@ import com.oracle.jrockit.jfr.Producer;
 import java.net.URI;
 
 import org.neo4j.jfr.configuration.Tracer;
+import org.neo4j.kernel.impl.transaction.tracing.CheckPointTracer;
+import org.neo4j.kernel.impl.transaction.tracing.LogCheckPointEvent;
 import org.neo4j.kernel.impl.transaction.tracing.TransactionEvent;
 import org.neo4j.kernel.impl.transaction.tracing.TransactionTracer;
 
-@Tracer("http://neo4j.com/kernel/transaction/jfr/")
-public class JfrTransactionTracer implements TransactionTracer
+@Tracer( "http://neo4j.com/kernel/transaction/jfr/" )
+public class JfrTransactionTracer implements TransactionTracer, CheckPointTracer
 {
     static final Producer producer;
     static final EventToken commitToken;
@@ -41,6 +43,7 @@ public class JfrTransactionTracer implements TransactionTracer
     static final EventToken serializeTransactionToken;
     static final EventToken transactionToken;
     static final EventToken storeApplyToken;
+    static final EventToken logCheckPointToken;
 
     static
     {
@@ -53,7 +56,11 @@ public class JfrTransactionTracer implements TransactionTracer
         serializeTransactionToken = createToken( JfrSerializeTransactionEvent.class );
         transactionToken = createToken( JfrTransactionEvent.class );
         storeApplyToken = createToken( JfrStoreApplyEvent.class );
-        producer.register();
+        logCheckPointToken = createToken( JfrLogCheckPointEvent.class );
+        if ( producer != null )
+        {
+            producer.register();
+        }
     }
 
     private static Producer createProducer()
@@ -90,5 +97,11 @@ public class JfrTransactionTracer implements TransactionTracer
     public TransactionEvent beginTransaction()
     {
         return new JfrTransactionEvent();
+    }
+
+    @Override
+    public LogCheckPointEvent beginCheckPoint()
+    {
+        return new JfrLogCheckPointEvent();
     }
 }

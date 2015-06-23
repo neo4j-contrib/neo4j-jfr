@@ -21,6 +21,7 @@ package org.neo4j.kernel.monitoring.tracing.jfr;
 
 import org.neo4j.io.pagecache.tracing.PageCacheTracer;
 import org.neo4j.io.pagecache.tracing.jfr.JfrPageCacheTracer;
+import org.neo4j.kernel.impl.transaction.tracing.CheckPointTracer;
 import org.neo4j.kernel.impl.transaction.tracing.TransactionTracer;
 import org.neo4j.kernel.monitoring.tracing.TracerFactory;
 
@@ -30,6 +31,10 @@ import org.neo4j.kernel.monitoring.tracing.TracerFactory;
  */
 public class JfrTracerFactory implements TracerFactory
 {
+    // TODO: reenable when working, quoting the commit message of the commit that disabled them here:
+    // "disabling transaction tracers because they just do not work: they cause a race condition on server start"
+    // private final JfrTransactionTracer tracer = new JfrTransactionTracer();
+
     @Override
     public String getImplementationName()
     {
@@ -45,7 +50,16 @@ public class JfrTracerFactory implements TracerFactory
     @Override
     public TransactionTracer createTransactionTracer()
     {
-        //return new JfrTransactionTracer();
+        // TODO: reenable when working
+        // return tracer;
         return TransactionTracer.NULL;
+    }
+
+    @Override
+    public CheckPointTracer createCheckPointTracer()
+    {
+        // TODO: reenable when working
+        // return tracer;
+        return CheckPointTracer.NULL;
     }
 }
