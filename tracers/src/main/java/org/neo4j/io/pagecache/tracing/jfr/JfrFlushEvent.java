@@ -42,7 +42,9 @@ public class JfrFlushEvent extends TimedEvent implements FlushEvent
     @ValueDefinition(name = "filename")
     private String filename;
     @ValueDefinition(name = "bytesWritten", contentType = ContentType.Bytes)
-    private int bytesWritten;
+    private long bytesWritten;
+    @ValueDefinition(name = "pagesFlushed")
+    private int pagesFlushed;
     @ValueDefinition(name = "gotException")
     private boolean gotException;
     @ValueDefinition(name = "exceptionMessage")
@@ -61,7 +63,7 @@ public class JfrFlushEvent extends TimedEvent implements FlushEvent
     }
 
     @Override
-    public void addBytesWritten( int bytes )
+    public void addBytesWritten( long bytes )
     {
         this.bytesWritten += bytes;
         bytesWrittenTotal.getAndAdd( bytes );
@@ -80,6 +82,12 @@ public class JfrFlushEvent extends TimedEvent implements FlushEvent
         this.gotException = true;
         this.exceptionMessage = exception.getMessage();
         done();
+    }
+
+    @Override
+    public void addPagesFlushed( int pages )
+    {
+        pagesFlushed += pages;
     }
 
     public void setFilePageId( long filePageId )
@@ -127,9 +135,14 @@ public class JfrFlushEvent extends TimedEvent implements FlushEvent
         return filename;
     }
 
-    public int getBytesWritten()
+    public long getBytesWritten()
     {
         return bytesWritten;
+    }
+
+    public int getPagesFlushed()
+    {
+        return pagesFlushed;
     }
 
     public boolean getGotException()

@@ -42,7 +42,7 @@ public class JfrPageFaultEvent extends TimedEvent implements PageFaultEvent
     @ValueDefinition(name = "filename")
     private String filename;
     @ValueDefinition(name = "bytesRead", contentType = ContentType.Bytes)
-    private int bytesRead;
+    private long bytesRead;
     @ValueDefinition(name = "gotException")
     private boolean gotException;
     @ValueDefinition(name = "exceptionMessage")
@@ -58,7 +58,7 @@ public class JfrPageFaultEvent extends TimedEvent implements PageFaultEvent
     }
 
     @Override
-    public void addBytesRead( int bytes )
+    public void addBytesRead( long bytes )
     {
         this.bytesRead += bytes;
         bytesReadTotal.getAndAdd( bytes );
@@ -110,7 +110,7 @@ public class JfrPageFaultEvent extends TimedEvent implements PageFaultEvent
         return gotException;
     }
 
-    public int getBytesRead()
+    public long getBytesRead()
     {
         return bytesRead;
     }
