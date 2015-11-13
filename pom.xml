@@ -7,7 +7,7 @@
   <groupId>org.neo4j.jfr</groupId>
   <artifactId>neo4j-jfr</artifactId>
   <packaging>pom</packaging>
-  <version>2.2.7-SNAPSHOT</version>
+  <version>2.2.7</version>
 
   <modules>
     <module>configuration</module>
