@@ -23,6 +23,8 @@ import org.neo4j.io.pagecache.tracing.PageCacheTracer;
 import org.neo4j.io.pagecache.tracing.jfr.JfrPageCacheTracer;
 import org.neo4j.kernel.impl.transaction.tracing.CheckPointTracer;
 import org.neo4j.kernel.impl.transaction.tracing.TransactionTracer;
+import org.neo4j.kernel.impl.util.JobScheduler;
+import org.neo4j.kernel.monitoring.Monitors;
 import org.neo4j.kernel.monitoring.tracing.TracerFactory;
 
 /**
@@ -42,13 +44,13 @@ public class JfrTracerFactory implements TracerFactory
     }
 
     @Override
-    public PageCacheTracer createPageCacheTracer()
+    public PageCacheTracer createPageCacheTracer( Monitors monitors, JobScheduler scheduler )
     {
         return new JfrPageCacheTracer();
     }
 
     @Override
-    public TransactionTracer createTransactionTracer()
+    public TransactionTracer createTransactionTracer( Monitors monitors, JobScheduler scheduler )
     {
         // TODO: reenable when working
         // return tracer;
@@ -56,7 +58,7 @@ public class JfrTracerFactory implements TracerFactory
     }
 
     @Override
-    public CheckPointTracer createCheckPointTracer()
+    public CheckPointTracer createCheckPointTracer( Monitors monitors, JobScheduler scheduler )
     {
         // TODO: reenable when working
         // return tracer;
