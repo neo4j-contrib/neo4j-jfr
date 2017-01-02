@@ -20,6 +20,38 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
+    <year>${maven.build.timestamp}</year>
+    <maven.build.timestamp.format>yyyy</maven.build.timestamp.format>
   </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.mycila</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+        <version>2.5</version>
+        <configuration>
+          <header>license_header.txt</header>
+          <mapping>
+            <java>JAVADOC_STYLE</java>
+          </mapping>
+          <includes>
+            <include>**/*.java</include>
+          </includes>
+          <properties>
+            <inceptionYear>${year}</inceptionYear>
+          </properties>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>compile</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>
