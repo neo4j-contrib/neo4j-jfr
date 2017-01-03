@@ -21,7 +21,6 @@ package org.neo4j.kernel.impl.transaction.tracing.jfr;
 
 import com.oracle.jrockit.jfr.EventDefinition;
 import com.oracle.jrockit.jfr.TimedEvent;
-import com.oracle.jrockit.jfr.ValueDefinition;
 
 import org.neo4j.kernel.impl.transaction.tracing.CommitEvent;
 import org.neo4j.kernel.impl.transaction.tracing.LogAppendEvent;
@@ -30,9 +29,6 @@ import org.neo4j.kernel.impl.transaction.tracing.StoreApplyEvent;
 @EventDefinition(path = "neo4j/transaction/commit")
 public class JfrCommitEvent extends TimedEvent implements CommitEvent
 {
-    @ValueDefinition(name = "transactionId")
-    private long transactionId;
-
     protected JfrCommitEvent()
     {
         super( JfrTransactionTracer.commitToken );
@@ -58,16 +54,5 @@ public class JfrCommitEvent extends TimedEvent implements CommitEvent
         JfrStoreApplyEvent event = new JfrStoreApplyEvent();
         event.begin();
         return event;
-    }
-
-    @Override
-    public void setTransactionId( long transactionId )
-    {
-        this.transactionId = transactionId;
-    }
-
-    public long getTransactionId()
-    {
-        return transactionId;
     }
 }

@@ -21,6 +21,8 @@ package org.neo4j.io.pagecache.tracing.jfr;
 
 import org.neo4j.io.pagecache.tracing.PageCacheTracer;
 import org.neo4j.io.pagecache.tracing.PageCacheTracerTest;
+import org.neo4j.kernel.impl.util.Neo4jJobScheduler;
+import org.neo4j.kernel.monitoring.Monitors;
 import org.neo4j.kernel.monitoring.tracing.jfr.JfrTracerFactory;
 
 public class JfrPageCacheTracerTest extends PageCacheTracerTest
@@ -28,6 +30,6 @@ public class JfrPageCacheTracerTest extends PageCacheTracerTest
     @Override
     protected PageCacheTracer createTracer()
     {
-        return new JfrTracerFactory().createPageCacheTracer();
+        return new JfrTracerFactory().createPageCacheTracer( new Monitors(), new Neo4jJobScheduler() );
     }
 }
