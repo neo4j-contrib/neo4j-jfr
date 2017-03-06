@@ -30,7 +30,6 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.neo4j.io.pagecache.PageSwapper;
 import org.neo4j.io.pagecache.tracing.EvictionRunEvent;
 import org.neo4j.io.pagecache.tracing.MajorFlushEvent;
-import org.neo4j.io.pagecache.tracing.PinEvent;
 import org.neo4j.io.pagecache.tracing.PageCacheTracer;
 import org.neo4j.jfr.configuration.Tracer;
 
@@ -105,10 +104,13 @@ public class JfrPageCacheTracer implements PageCacheTracer
     private final AtomicLong pins = new AtomicLong();
     private final AtomicLong faults = new AtomicLong();
     private final AtomicLong unpins = new AtomicLong();
+    private final AtomicLong hits = new AtomicLong();
     private final AtomicLong filesMapped = new AtomicLong();
     private final AtomicLong filesUnmapped = new AtomicLong();
     private final EvictionEventStarter evictionEventStarter = new EvictionEventStarter(
             evictions, evictionExceptions, flushes, bytesWritten );
+    private final PinEventStarter pinEventStarter =
+            new PinEventStarter( pins, unpins, hits, faults, bytesRead, evictionEventStarter );
 
     @Override
     public void mappedFile( File file )
@@ -139,20 +141,6 @@ public class JfrPageCacheTracer implements PageCacheTracer
     }
 
     @Override
-    public PinEvent beginPin( boolean exclusiveLock, long filePageId, PageSwapper swapper )
-    {
-        long pinEventId = pins.incrementAndGet();
-
-        JfrPinEvent event = new JfrPinEvent( unpins, faults, bytesRead, evictionEventStarter );
-        event.begin();
-        event.setPinEventId( pinEventId );
-        event.setExclusiveLock( exclusiveLock );
-        event.setFilePageId( filePageId );
-        event.setFilename( swapper.file().getName() );
-        return event;
-    }
-
-    @Override
     public MajorFlushEvent beginFileFlush( PageSwapper swapper )
     {
         JfrFileFlushEvent event = new JfrFileFlushEvent( flushes, bytesWritten );
@@ -167,6 +155,51 @@ public class JfrPageCacheTracer implements PageCacheTracer
         JfrCacheFlushEvent event = new JfrCacheFlushEvent( flushes, bytesWritten );
         event.begin();
         return event;
+    }
+
+    @Override
+    public void pins( long pins )
+    {
+    }
+
+    @Override
+    public void unpins( long unpins )
+    {
+    }
+
+    @Override
+    public void hits( long hits )
+    {
+    }
+
+    @Override
+    public void faults( long faults )
+    {
+    }
+
+    @Override
+    public void bytesRead( long bytesRead )
+    {
+    }
+
+    @Override
+    public void evictions( long evictions )
+    {
+    }
+
+    @Override
+    public void evictionExceptions( long evictionExceptions )
+    {
+    }
+
+    @Override
+    public void bytesWritten( long bytesWritten )
+    {
+    }
+
+    @Override
+    public void flushes( long flushes )
+    {
     }
 
     @Override
@@ -191,6 +224,12 @@ public class JfrPageCacheTracer implements PageCacheTracer
     public long unpins()
     {
         return unpins.get();
+    }
+
+    @Override
+    public long hits()
+    {
+        return hits.get();
     }
 
     @Override
@@ -227,5 +266,10 @@ public class JfrPageCacheTracer implements PageCacheTracer
     public long evictionExceptions()
     {
         return evictionExceptions.get();
+    }
+
+    public PinEventStarter getPinEventStarter()
+    {
+        return pinEventStarter;
     }
 }

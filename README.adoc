@@ -15,11 +15,11 @@ Add the following to `neo4j-wrapper.conf`:
 
 [source]
 ----
-wrapper.java.additional=-XX:+UnlockCommercialFeatures
-wrapper.java.additional=-XX:+FlightRecorder
-wrapper.java.additional=-XX:FlightRecorderOptions=stackdepth=500
-wrapper.java.additional=-XX:+UnlockDiagnosticVMOptions
-wrapper.java.additional=-XX:+DebugNonSafepoints
+dbms.jvm.additional=-XX:+UnlockCommercialFeatures
+dbms.jvm.additional=-XX:+FlightRecorder
+dbms.jvm.additional=-XX:FlightRecorderOptions=stackdepth=500
+dbms.jvm.additional=-XX:+UnlockDiagnosticVMOptions
+dbms.jvm.additional=-XX:+DebugNonSafepoints
 ----
 
 Note that this requires an Oracle JDK, and that there are special licensing terms for FlightRecorder.
@@ -30,7 +30,7 @@ Add the following to your `neo4j.properties` file:
 
 [source]
 ----
-dbms.tracer=jfr
+unsupported.dbms.tracer=jfr
 ----
 
 Neo4j will now report page cache and transaction events to FlightRecorder, next time it starts.

@@ -34,6 +34,7 @@ public class JfrPinEvent extends TimedEvent implements PinEvent
     static final String REL_KEY_PIN_EVENT_ID = "http://neo4j.com/jfr/pinId";
 
     private final AtomicLong unpins;
+    private final AtomicLong hits;
     private final AtomicLong faults;
     private final AtomicLong bytesRead;
     private final EvictionEventStarter evictionEventStarter;
@@ -54,11 +55,13 @@ public class JfrPinEvent extends TimedEvent implements PinEvent
     public JfrPinEvent(
             AtomicLong unpins,
             AtomicLong faults,
+            AtomicLong hits,
             AtomicLong bytesRead,
             EvictionEventStarter evictionEventStarter )
     {
         super( JfrPageCacheTracer.pinToken );
         this.unpins = unpins;
+        this.hits = hits;
         this.faults = faults;
         this.bytesRead = bytesRead;
         this.evictionEventStarter = evictionEventStarter;
@@ -82,6 +85,12 @@ public class JfrPinEvent extends TimedEvent implements PinEvent
         event.setFilename( filename );
         event.begin();
         return event;
+    }
+
+    @Override
+    public void hit()
+    {
+        hits.getAndIncrement();
     }
 
     public void setPinEventId( long pinEventId )
