@@ -19,7 +19,8 @@
  */
 package org.neo4j.jfr.configuration;
 
-import static java.lang.String.format;
+import com.oracle.jrockit.jfr.EventDefinition;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -32,7 +33,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
@@ -41,11 +41,10 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 
-import com.oracle.jrockit.jfr.EventDefinition;
-import org.apache.commons.lang3.StringUtils;
+import static java.lang.String.format;
 
 @SupportedAnnotationTypes({"org.neo4j.jfr.configuration.Tracer", "com.oracle.jrockit.jfr.EventDefinition"})
-@SupportedSourceVersion(SourceVersion.RELEASE_7)
+@SupportedSourceVersion(SourceVersion.RELEASE_8)
 public class ManifestWriter extends AbstractProcessor
 {
     private static final String PATH_KEY = "MANIFEST_PATH";

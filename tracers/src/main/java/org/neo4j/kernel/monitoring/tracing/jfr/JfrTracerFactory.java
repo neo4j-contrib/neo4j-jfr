@@ -20,7 +20,9 @@
 package org.neo4j.kernel.monitoring.tracing.jfr;
 
 import org.neo4j.io.pagecache.tracing.PageCacheTracer;
+import org.neo4j.io.pagecache.tracing.cursor.PageCursorTracerSupplier;
 import org.neo4j.io.pagecache.tracing.jfr.JfrPageCacheTracer;
+import org.neo4j.io.pagecache.tracing.jfr.JfrPageCursorTracerSupplier;
 import org.neo4j.kernel.impl.transaction.tracing.CheckPointTracer;
 import org.neo4j.kernel.impl.transaction.tracing.TransactionTracer;
 import org.neo4j.kernel.impl.util.JobScheduler;
@@ -63,5 +65,11 @@ public class JfrTracerFactory implements TracerFactory
         // TODO: reenable when working
         // return tracer;
         return CheckPointTracer.NULL;
+    }
+
+    @Override
+    public PageCursorTracerSupplier createPageCursorTracerSupplier( Monitors monitors, JobScheduler jobScheduler )
+    {
+        return JfrPageCursorTracerSupplier.INSTANCE;
     }
 }
