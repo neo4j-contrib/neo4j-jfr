@@ -64,7 +64,7 @@ public class JfrCacheFlushEvent extends TimedEvent implements MajorFlushEvent, F
     }
 
     @Override
-    public FlushEvent beginFlush( long filePageId, int cachePageId, PageSwapper swapper )
+    public FlushEvent beginFlush( long filePageId, long cachePageId, PageSwapper swapper )
     {
         flushes.getAndIncrement();
         JfrFlushEvent event = new JfrFlushEvent( bytesWritten );

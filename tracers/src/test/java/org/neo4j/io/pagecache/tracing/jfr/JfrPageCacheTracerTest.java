@@ -46,7 +46,7 @@ public class JfrPageCacheTracerTest extends DefaultPageCacheTracerTest
     public void setUp()
     {
         tracer = new JfrPageCacheTracer();
-        swapper = new DummyPageSwapper( "filename" );
+        swapper = new DummyPageSwapper( "filename", 8192 );
     }
 
     @Test

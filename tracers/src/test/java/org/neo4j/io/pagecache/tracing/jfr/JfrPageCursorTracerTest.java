@@ -37,11 +37,11 @@ public class JfrPageCursorTracerTest
         JfrPageCacheTracer cacheTracer = new JfrPageCacheTracer();
         pageCursorTracer.init( cacheTracer );
 
-        PinEvent pinEvent = pageCursorTracer.beginPin( true, 1L, new DummyPageSwapper( "dummy" ) );
+        PinEvent pinEvent = pageCursorTracer.beginPin( true, 1L, new DummyPageSwapper( "dummy", 8192 ) );
         pinEvent.hit();
         pinEvent.done();
 
-        PinEvent pinEventForPageFault = pageCursorTracer.beginPin( true, 1L, new DummyPageSwapper( "dummy" ) );
+        PinEvent pinEventForPageFault = pageCursorTracer.beginPin( true, 1L, new DummyPageSwapper( "dummy", 8192 ) );
         {
             PageFaultEvent pageFaultEvent = pinEventForPageFault.beginPageFault();
             {

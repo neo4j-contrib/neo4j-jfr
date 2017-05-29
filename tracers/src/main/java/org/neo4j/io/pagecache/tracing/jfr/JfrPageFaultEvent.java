@@ -48,7 +48,7 @@ public class JfrPageFaultEvent extends TimedEvent implements PageFaultEvent
     @ValueDefinition(name = "exceptionMessage")
     private String exceptionMessage;
     @ValueDefinition(name = "cachePageId")
-    private int cachePageId;
+    private long cachePageId;
 
     public JfrPageFaultEvent( AtomicLong bytesRead, EvictionEventStarter evictionEventStarter )
     {
@@ -130,13 +130,13 @@ public class JfrPageFaultEvent extends TimedEvent implements PageFaultEvent
         return pinEventId;
     }
 
-    public int getCachePageId()
+    public long getCachePageId()
     {
         return cachePageId;
     }
 
     @Override
-    public void setCachePageId( int cachePageId )
+    public void setCachePageId( long cachePageId )
     {
         this.cachePageId = cachePageId;
     }

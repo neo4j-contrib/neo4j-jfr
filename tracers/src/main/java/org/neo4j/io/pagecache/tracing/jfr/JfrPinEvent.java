@@ -42,7 +42,7 @@ public class JfrPinEvent extends TimedEvent implements PinEvent
     @ValueDefinition(name = "pinEventId", relationKey = REL_KEY_PIN_EVENT_ID)
     private long pinEventId;
     @ValueDefinition(name = "cachePageId")
-    private int cachePageId;
+    private long cachePageId;
     @ValueDefinition(name = "exclusiveLock")
     private boolean exclusiveLock;
     @ValueDefinition(name = "filePageId")
@@ -68,7 +68,7 @@ public class JfrPinEvent extends TimedEvent implements PinEvent
     }
 
     @Override
-    public void setCachePageId( int cachePageId )
+    public void setCachePageId( long cachePageId )
     {
         this.cachePageId = cachePageId;
     }
@@ -118,7 +118,7 @@ public class JfrPinEvent extends TimedEvent implements PinEvent
         return pinEventId;
     }
 
-    public int getCachePageId()
+    public long getCachePageId()
     {
         return cachePageId;
     }

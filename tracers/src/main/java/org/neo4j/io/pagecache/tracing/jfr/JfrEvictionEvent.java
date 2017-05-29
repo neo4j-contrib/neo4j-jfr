@@ -52,7 +52,7 @@ public class JfrEvictionEvent extends TimedEvent implements EvictionEvent, Flush
     @ValueDefinition(name = "exceptionMessage")
     private String exceptionMessage;
     @ValueDefinition(name = "cachePageId")
-    private int cachePageId;
+    private long cachePageId;
     @ValueDefinition(name = "causedFlush")
     private boolean causedFlush;
 
@@ -86,7 +86,7 @@ public class JfrEvictionEvent extends TimedEvent implements EvictionEvent, Flush
     }
 
     @Override
-    public FlushEvent beginFlush( long filePageId, int cachePageId, PageSwapper swapper )
+    public FlushEvent beginFlush( long filePageId, long cachePageId, PageSwapper swapper )
     {
         flushes.getAndIncrement();
         causedFlush = true;
@@ -108,7 +108,7 @@ public class JfrEvictionEvent extends TimedEvent implements EvictionEvent, Flush
     }
 
     @Override
-    public void setCachePageId( int cachePageId )
+    public void setCachePageId( long cachePageId )
     {
         this.cachePageId = cachePageId;
     }
@@ -130,7 +130,7 @@ public class JfrEvictionEvent extends TimedEvent implements EvictionEvent, Flush
         this.evictionId = evictionId;
     }
 
-    public int getCachePageId()
+    public long getCachePageId()
     {
         return cachePageId;
     }

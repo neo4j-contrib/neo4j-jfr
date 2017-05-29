@@ -38,7 +38,7 @@ public class JfrFlushEvent extends TimedEvent implements FlushEvent
     @ValueDefinition(name = "filePageId")
     private long filePageId;
     @ValueDefinition(name = "cachePageId")
-    private int cachePageId;
+    private long cachePageId;
     @ValueDefinition(name = "filename")
     private String filename;
     @ValueDefinition(name = "bytesWritten", contentType = ContentType.Bytes)
@@ -95,7 +95,7 @@ public class JfrFlushEvent extends TimedEvent implements FlushEvent
         this.filePageId = filePageId;
     }
 
-    public void setCachePageId( int cachePageId )
+    public void setCachePageId( long cachePageId )
     {
         this.cachePageId = cachePageId;
     }
@@ -125,7 +125,7 @@ public class JfrFlushEvent extends TimedEvent implements FlushEvent
         return filePageId;
     }
 
-    public int getCachePageId()
+    public long getCachePageId()
     {
         return cachePageId;
     }
