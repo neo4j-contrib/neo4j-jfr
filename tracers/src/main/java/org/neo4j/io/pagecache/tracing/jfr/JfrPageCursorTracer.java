@@ -99,4 +99,10 @@ public class JfrPageCursorTracer implements PageCursorTracer
     {
         return 0;
     }
+
+    @Override
+    public double hitRatio()
+    {
+        return 0;
+    }
 }

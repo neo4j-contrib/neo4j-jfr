@@ -27,6 +27,7 @@ import java.io.File;
 import java.net.URI;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.neo4j.helpers.MathUtil;
 import org.neo4j.io.pagecache.PageSwapper;
 import org.neo4j.io.pagecache.tracing.EvictionRunEvent;
 import org.neo4j.io.pagecache.tracing.MajorFlushEvent;
@@ -266,6 +267,12 @@ public class JfrPageCacheTracer implements PageCacheTracer
     public long evictionExceptions()
     {
         return evictionExceptions.get();
+    }
+
+    @Override
+    public double hitRatio()
+    {
+        return MathUtil.portion( hits(), faults() );
     }
 
     public PinEventStarter getPinEventStarter()
