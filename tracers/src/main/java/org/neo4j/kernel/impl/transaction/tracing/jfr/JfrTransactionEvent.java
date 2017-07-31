@@ -33,8 +33,8 @@ public class JfrTransactionEvent extends TimedEvent implements TransactionEvent
     private boolean success;
     @ValueDefinition(name = "failure")
     private boolean failure;
-    @ValueDefinition(name = "transactionType")
-    private String transactionType;
+    @ValueDefinition(name = "transactionWriteState")
+    private String transactionWriteState;
     @ValueDefinition(name = "readOnly")
     private boolean readOnly;
 
@@ -65,9 +65,9 @@ public class JfrTransactionEvent extends TimedEvent implements TransactionEvent
     }
 
     @Override
-    public void setTransactionType( String transactionType )
+    public void setTransactionWriteState( String writeState )
     {
-        this.transactionType = transactionType;
+        this.transactionWriteState = writeState;
     }
 
     @Override
@@ -86,9 +86,9 @@ public class JfrTransactionEvent extends TimedEvent implements TransactionEvent
         return failure;
     }
 
-    public String getTransactionType()
+    public String getTransactionWriteState()
     {
-        return transactionType;
+        return transactionWriteState;
     }
 
     public boolean getReadOnly()
