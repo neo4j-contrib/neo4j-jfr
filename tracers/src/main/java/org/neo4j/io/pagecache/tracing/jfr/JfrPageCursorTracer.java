@@ -47,6 +47,18 @@ public class JfrPageCursorTracer implements PageCursorTracer
     }
 
     @Override
+    public long accumulatedHits()
+    {
+        return 0;
+    }
+
+    @Override
+    public long accumulatedFaults()
+    {
+        return 0;
+    }
+
+    @Override
     public long faults()
     {
         return 0;
