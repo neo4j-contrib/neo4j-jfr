@@ -27,6 +27,8 @@ import org.neo4j.io.pagecache.tracing.jfr.JfrPageCacheTracer;
 import org.neo4j.io.pagecache.tracing.jfr.JfrPageCursorTracerSupplier;
 import org.neo4j.kernel.impl.util.Neo4jJobScheduler;
 import org.neo4j.kernel.monitoring.Monitors;
+import org.neo4j.logging.FormattedLog;
+import org.neo4j.time.Clocks;
 
 import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.Assert.assertThat;
@@ -36,8 +38,8 @@ public class JfrTracerFactoryTest
     @Test
     public void createPageCacheTracer() throws Exception
     {
-        PageCacheTracer pageCacheTracer =
-                getTracerFactory().createPageCacheTracer( getMonitors(), getJobScheduler() );
+        PageCacheTracer pageCacheTracer = getTracerFactory().createPageCacheTracer( getMonitors(),
+                getJobScheduler(), Clocks.nanoClock(), FormattedLog.toOutputStream( System.out ) );
         assertThat( pageCacheTracer, instanceOf( JfrPageCacheTracer.class ) );
     }
 
