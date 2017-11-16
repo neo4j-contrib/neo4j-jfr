@@ -25,9 +25,11 @@ import org.neo4j.io.pagecache.tracing.jfr.JfrPageCacheTracer;
 import org.neo4j.io.pagecache.tracing.jfr.JfrPageCursorTracerSupplier;
 import org.neo4j.kernel.impl.transaction.tracing.CheckPointTracer;
 import org.neo4j.kernel.impl.transaction.tracing.TransactionTracer;
+import org.neo4j.kernel.impl.util.JobScheduler;
 import org.neo4j.kernel.monitoring.Monitors;
 import org.neo4j.kernel.monitoring.tracing.TracerFactory;
-import org.neo4j.scheduler.JobScheduler;
+import org.neo4j.logging.Log;
+import org.neo4j.time.SystemNanoClock;
 
 /**
  * This class exist to delay the initialisation of the JFR mechanics, until it's
@@ -46,7 +48,8 @@ public class JfrTracerFactory implements TracerFactory
     }
 
     @Override
-    public PageCacheTracer createPageCacheTracer( Monitors monitors, JobScheduler scheduler )
+    public PageCacheTracer createPageCacheTracer( Monitors monitors, JobScheduler jobScheduler, SystemNanoClock clock,
+            Log log )
     {
         return new JfrPageCacheTracer();
     }
