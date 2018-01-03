@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2017 "Neo Technology,"
+ * Copyright (c) 2002-2018 "Neo Technology,"
  * Network Engine for Objects in Lund AB [http://neotechnology.com]
  *
  * This file is part of Neo4j.
@@ -19,18 +19,18 @@
  */
 package org.neo4j.jfr;
 
+import com.jamesmurty.utils.XMLBuilder2;
+import org.xml.sax.InputSource;
+
 import java.io.IOException;
 import java.util.Properties;
-
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 
-import com.jamesmurty.utils.XMLBuilder2;
 import org.neo4j.jfr.configuration.Event;
 import org.neo4j.jfr.configuration.Manifest;
 import org.neo4j.jfr.configuration.ManifestReader;
 import org.neo4j.jfr.configuration.Producer;
-import org.xml.sax.InputSource;
 
 public class Configurator
 {

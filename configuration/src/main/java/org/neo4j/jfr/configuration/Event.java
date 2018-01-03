@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2017 "Neo Technology,"
+ * Copyright (c) 2002-2018 "Neo Technology,"
  * Network Engine for Objects in Lund AB [http://neotechnology.com]
  *
  * This file is part of Neo4j.
@@ -19,11 +19,11 @@
  */
 package org.neo4j.jfr.configuration;
 
-import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 
 public class Event
 {
