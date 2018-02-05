@@ -108,6 +108,7 @@ public class JfrPageCacheTracer implements PageCacheTracer
     private final AtomicLong hits = new AtomicLong();
     private final AtomicLong filesMapped = new AtomicLong();
     private final AtomicLong filesUnmapped = new AtomicLong();
+    private final AtomicLong maxPages = new AtomicLong();
     private final EvictionEventStarter evictionEventStarter = new EvictionEventStarter(
             evictions, evictionExceptions, flushes, bytesWritten );
     private final PinEventStarter pinEventStarter =
@@ -204,6 +205,12 @@ public class JfrPageCacheTracer implements PageCacheTracer
     }
 
     @Override
+    public void maxPages( long maxPages )
+    {
+        this.maxPages.set( maxPages );
+    }
+
+    @Override
     public long faults()
     {
         return faults.get();
@@ -273,6 +280,12 @@ public class JfrPageCacheTracer implements PageCacheTracer
     public double hitRatio()
     {
         return MathUtil.portion( hits(), faults() );
+    }
+
+    @Override
+    public double usageRatio()
+    {
+        return (faults.get() - evictions.get()) / (double) maxPages.get();
     }
 
     public PinEventStarter getPinEventStarter()
