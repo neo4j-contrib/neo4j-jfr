@@ -25,7 +25,8 @@ import org.neo4j.io.pagecache.tracing.PageCacheTracer;
 import org.neo4j.io.pagecache.tracing.cursor.PageCursorTracerSupplier;
 import org.neo4j.io.pagecache.tracing.jfr.JfrPageCacheTracer;
 import org.neo4j.io.pagecache.tracing.jfr.JfrPageCursorTracerSupplier;
-import org.neo4j.kernel.impl.util.Neo4jJobScheduler;
+import org.neo4j.kernel.impl.scheduler.CentralJobScheduler;
+import org.neo4j.scheduler.JobScheduler;
 import org.neo4j.kernel.monitoring.Monitors;
 import org.neo4j.logging.FormattedLog;
 import org.neo4j.time.Clocks;
@@ -56,9 +57,9 @@ public class JfrTracerFactoryTest
         return new Monitors();
     }
 
-    private Neo4jJobScheduler getJobScheduler()
+    private JobScheduler getJobScheduler()
     {
-        return new Neo4jJobScheduler();
+        return new CentralJobScheduler();
     }
 
     private JfrTracerFactory getTracerFactory()
