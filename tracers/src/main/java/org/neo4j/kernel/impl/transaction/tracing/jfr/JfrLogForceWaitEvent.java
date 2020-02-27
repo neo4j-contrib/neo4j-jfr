@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2002-2019 "Neo Technology,"
+ * Copyright (c) 2002-2020 "Neo Technology,"
  * Network Engine for Objects in Lund AB [http://neotechnology.com]
  *
  * This file is part of Neo4j.
